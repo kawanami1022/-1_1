@@ -254,6 +254,8 @@ bool TicketMachine::InitDraw(void)
 	draw.try_emplace(PayType::MAX, [&]() {
 		TRACE("function‚ÌDraw:MAX\n");
 		int totalMoney = 0;
+		int moneyLine = 0;
+		SetFontSize(font_size);
 		DrawGraph(0, 0, images["money"], true);
 		DrawString(
 			0, comment_offsetY + GetFontSize() / 2,
@@ -264,6 +266,8 @@ bool TicketMachine::InitDraw(void)
 	draw.try_emplace(PayType::CASH, [&]() {
 		TRACE("function‚ÌDraw:CASH\n");
 		int totalMoney = 0;
+		int moneyLine = 0;
+		SetFontSize(font_size);
 		DrawGraph(0, 0, images["money"], true);
 		if (paySuccess)
 		{
@@ -335,6 +339,8 @@ bool TicketMachine::InitDraw(void)
 		TRACE("function‚ÌDraw:CARD\n");
 		DrawGraph(0, 0, images["act_card"], true);
 		int totalMoney = 0;
+		int moneyLine = 0;
+		SetFontSize(font_size);
 		if (paySuccess)
 		{
 			DrawString(0, comment_offsetY + GetFontSize() / 2,
