@@ -245,7 +245,6 @@ VecInt& TicketMachine::GetMoneyType(void)
 bool TicketMachine::InitDraw(void)
 {
 	int moneyLine = 0;
-	int totalMoney = 0;
 	SetFontSize(font_size);
 	// êÿïÑÇÃílíiï\é¶
 	DrawString(screen_sizeX / 2 - font_size,
@@ -254,6 +253,7 @@ bool TicketMachine::InitDraw(void)
 
 	draw.try_emplace(PayType::MAX, [&]() {
 		TRACE("functionÇÃDraw:MAX\n");
+		int totalMoney = 0;
 		DrawGraph(0, 0, images["money"], true);
 		DrawString(
 			0, comment_offsetY + GetFontSize() / 2,
@@ -263,6 +263,7 @@ bool TicketMachine::InitDraw(void)
 	});
 	draw.try_emplace(PayType::CASH, [&]() {
 		TRACE("functionÇÃDraw:CASH\n");
+		int totalMoney = 0;
 		DrawGraph(0, 0, images["money"], true);
 		if (paySuccess)
 		{
@@ -333,6 +334,7 @@ bool TicketMachine::InitDraw(void)
 	draw.try_emplace(PayType::CARD, [&]() {
 		TRACE("functionÇÃDraw:CARD\n");
 		DrawGraph(0, 0, images["act_card"], true);
+		int totalMoney = 0;
 		if (paySuccess)
 		{
 			DrawString(0, comment_offsetY + GetFontSize() / 2,
