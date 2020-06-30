@@ -37,7 +37,7 @@ bool Myself::Run(void)
 					int type = moneyType[pos.y / money_sizeY];
 					if (0<cash[type])
 					{
-						if (lpTicketMachine.InsertCash(type))
+						if (lpTicketMachine.GetInsert()[InsertType::CASH](type))
 						{
 							cash[type]--;
 						}
@@ -48,7 +48,7 @@ bool Myself::Run(void)
 					// 現金の範囲+1の位置がちょうど電子マネー
 					if (pos.y < static_cast<int>(moneyType.size() + 1) * money_sizeY)
 					{
-						lpTicketMachine.InsertCard();
+						lpTicketMachine.GetInsert()[InsertType::CARD](0);
 					}
 				}
 			}

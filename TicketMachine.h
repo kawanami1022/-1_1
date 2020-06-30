@@ -8,16 +8,21 @@
 #include "CardServer.h"
 
 #define lpTicketMachine TicketMachine::getInstance()
-
-using MapInt = std::map<int, int>;
-using VecInt = std::vector<int>;
-using sharedMouse = std::shared_ptr<MouseCt1>;
-
 enum class PayType {
 	CASH,		// 現金
 	CARD,		// ICカード
 	MAX			// 未設定
 };
+
+enum class InsertType {
+	CASH,		// 現金
+	CARD,		// ICカード
+};
+
+using MapInt = std::map<int, int>;
+using VecInt = std::vector<int>;
+using sharedMouse = std::shared_ptr<MouseCt1>;
+using MapInsert = std::map < InsertType, std::function<bool(int)>>;
 
 
 class TicketMachine
@@ -35,10 +40,12 @@ public:
 	void Draw(void);
 	VecInt& GetMoneyType(void);
 	bool Init(sharedMouse mouse);
+	MapInsert& GetInsert();
 
 private:
 	bool InitDraw(void);
 	bool InitPay(void);
+	bool InitInsert(void);
 	bool PayCash(void);
 	bool PayCard(void);
 	bool PayMax(void);
@@ -59,7 +66,7 @@ private:
 	std::map<std::string, int> images;
 	std::map < PayType, std::function<void(void)>> draw;
 	std::map < PayType, std::function<void(void)>> pay;
-	std::map < PayType, std::function<bool(void)>> pay_b;
+	MapInsert insert;
 
 	const int comment_offsetY;
 	const int draw_offsetX;

@@ -432,6 +432,39 @@ bool TicketMachine::InitPay(void)
 	return true;
 }
 
+bool TicketMachine::InitInsert(void)
+{
+	insert.try_emplace(InsertType::CASH, [&](int cash) {
+		if (payType == PayType::MAX)
+		{
+			payType = PayType::CASH;
+		}
+
+		if (payType != PayType::CASH)
+		{
+			return false;
+		}
+
+		cashData.try_emplace(cash, 0);
+		cashData[cash]++;
+		return true;
+	});
+	insert.try_emplace(InsertType::CARD, [&](int cash) {
+		if (payType == PayType::MAX)
+		{
+			payType = PayType::CARD;
+		}
+		else
+		{
+			//カードおよび現金がみ
+			return false;
+		}
+		cardData = lpCardServer.GetCardState();
+		return true;
+	});
+	return true;
+}
+
 bool TicketMachine::PayCash()
 {
 	int totalCash = 0;
@@ -585,7 +618,14 @@ bool TicketMachine::Init(sharedMouse mouse)
 		static_cast<int>(money_sizeY * (moneyType.size())));
 	InitDraw();
 	InitPay();
+	InitInsert();
 	return true;
+}
+
+MapInsert& TicketMachine::GetInsert()
+{
+	// TODO: return ステートメントをここに挿入します
+	return insert;
 }
 
 TicketMachine::TicketMachine() :comment_offsetY(450),
