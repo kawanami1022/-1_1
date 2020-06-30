@@ -40,31 +40,69 @@ void TicketMachine::Run(void)
 		else
 		{
 
-			// 決済処理の実行
-			switch (payType)
+			if (pay.count(payType))
 			{
-			case PayType::CASH:
-
-				if (PayCash())
-				{
-					// 決済成功
-					TRACE("決済成功\n");
-				}
-				break;
-			case PayType::CARD:
-				lpCardServer.Payment(price_card);
-				cardData = lpCardServer.GetCardState();
-				paySuccess = true;
-				break;
-			case PayType::MAX:
-				break;
-			default:
-				TRACE("エラー:未知の支払い方法");
-					payType = PayType::MAX;
-				break;
+				pay[payType]();
 			}
+			else
+			{
+				TRACE("エラー:未知の支払い方法");
+				payType = PayType::MAX;
+			}
+
+			//// 決済処理の実行
+			//switch (payType)
+			//{
+			//case PayType::CASH:
+
+			//	if (PayCash())
+			//	{
+			//		// 決済成功
+			//		TRACE("決済成功\n");
+			//	}
+			//	break;
+			//case PayType::CARD:
+			//	//lpCardServer.Payment(price_card);
+			//	//cardData = lpCardServer.GetCardState();
+			//	//paySuccess = true;
+			//	break;
+			//case PayType::MAX:
+			//	break;
+			//default:
+			//	TRACE("エラー:未知の支払い方法");
+			//		payType = PayType::MAX;
+			//	break;
+			//}
 		}
 	}
+}
+
+bool TicketMachine::Insert(void)
+{
+	//if (payType == PayType::MAX)
+	//{
+	//	payType = PayType::CASH;
+	//}
+
+	//if (payType != PayType::CASH)
+	//{
+	//	return false;
+	//}
+
+	//cashData.try_emplace(cash, 0);
+	//cashData[cash]++;
+
+	//if (payType == PayType::MAX)
+	//{
+	//	payType = PayType::CARD;
+	//}
+	//else
+	//{
+	//	//カードおよび現金のみ
+	//	return false;
+	//}
+	//cardData = lpCardServer.GetCardState();
+	return true;
 }
 
 bool TicketMachine::InsertCash(int cash)
@@ -95,9 +133,39 @@ bool TicketMachine::InsertCash(int cash)
 	return true;
 }
 
+
+bool TicketMachine::InsertCard()
+{
+	if (payType == PayType::MAX)
+	{
+		payType = PayType::CARD;
+	}
+	else
+	{
+		//カードおよび現金がみ
+		return false;
+	}
+	cardData = lpCardServer.GetCardState();
+	return true;
+}
+
 void TicketMachine::Draw(void)
 {
-	draw[payType]();
+	// C++20 
+	//if(draw.contains(PayType))
+	//{ 
+	//	draw[payType]();
+	//}
+
+	//if (draw.find(payType) != draw.end())
+	//{
+	//	draw[payType]();
+	//}
+
+	if (draw.count(payType))
+	{
+		draw[payType]();
+	}
 	//int moneyLine = 0;
 	//int totalMoney = 0;
 	//SetFontSize(font_size);
@@ -221,20 +289,6 @@ void TicketMachine::Draw(void)
 	DrawBtn();
 }
 
-bool TicketMachine::InsertCard()
-{
-	if (payType == PayType::MAX)
-	{
-		payType = PayType::CARD;
-	}
-	else
-	{
-		//カードおよび現金がみ
-		return false;
-	}
-	cardData = lpCardServer.GetCardState();
-	return true;
-}
 
 VecInt& TicketMachine::GetMoneyType(void)
 {
@@ -252,7 +306,6 @@ bool TicketMachine::InitDraw(void)
 		"切符の価格  現金:130円　電子マネー:124円", 0xffffff, true);
 
 	draw.try_emplace(PayType::MAX, [&]() {
-		TRACE("functionのDraw:MAX\n");
 		int totalMoney = 0;
 		int moneyLine = 0;
 		SetFontSize(font_size);
@@ -264,7 +317,6 @@ bool TicketMachine::InitDraw(void)
 		);
 	});
 	draw.try_emplace(PayType::CASH, [&]() {
-		TRACE("functionのDraw:CASH\n");
 		int totalMoney = 0;
 		int moneyLine = 0;
 		SetFontSize(font_size);
@@ -336,7 +388,6 @@ bool TicketMachine::InitDraw(void)
 		}
 	});
 	draw.try_emplace(PayType::CARD, [&]() {
-		TRACE("functionのDraw:CARD\n");
 		DrawGraph(0, 0, images["act_card"], true);
 		int totalMoney = 0;
 		int moneyLine = 0;
@@ -371,6 +422,14 @@ bool TicketMachine::InitDraw(void)
 	});
 
 	return false;
+}
+
+bool TicketMachine::InitPay(void)
+{
+	pay.try_emplace(PayType::CASH, [&]() { PayCash(); });
+	pay.try_emplace(PayType::CARD, [&]() {PayCard(); });
+	pay.try_emplace(PayType::MAX, [&]() {PayMax(); });
+	return true;
 }
 
 bool TicketMachine::PayCash()
@@ -463,6 +522,19 @@ bool TicketMachine::PayCash()
 
 }
 
+bool TicketMachine::PayCard(void)
+{
+	lpCardServer.Payment(price_card);
+	cardData = lpCardServer.GetCardState();
+	paySuccess = true;
+	return true;
+}
+
+bool TicketMachine::PayMax(void)
+{
+	return false;
+}
+
 void TicketMachine::Clear()
 {
 	btnKey = "btn";
@@ -512,6 +584,7 @@ bool TicketMachine::Init(sharedMouse mouse)
 		(screen_sizeX - money_sizeX * 2) - pay_btn_sizeX,
 		static_cast<int>(money_sizeY * (moneyType.size())));
 	InitDraw();
+	InitPay();
 	return true;
 }
 

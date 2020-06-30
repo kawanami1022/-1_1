@@ -29,15 +29,19 @@ public:
 		return s_Instance;
 	}
 	void Run(void);
+	bool Insert(void);
 	bool InsertCash(int cash);		// 入金受付処理
-	void Draw(void);
 	bool InsertCard();			// 電子マネーカードの受付処理
+	void Draw(void);
 	VecInt& GetMoneyType(void);
 	bool Init(sharedMouse mouse);
 
 private:
 	bool InitDraw(void);
-	bool PayCash();
+	bool InitPay(void);
+	bool PayCash(void);
+	bool PayCard(void);
+	bool PayMax(void);
 	void Clear();
 	void DrawBtn(void);
 	sharedMouse mouse;			//
@@ -54,6 +58,8 @@ private:
 
 	std::map<std::string, int> images;
 	std::map < PayType, std::function<void(void)>> draw;
+	std::map < PayType, std::function<void(void)>> pay;
+	std::map < PayType, std::function<bool(void)>> pay_b;
 
 	const int comment_offsetY;
 	const int draw_offsetX;
