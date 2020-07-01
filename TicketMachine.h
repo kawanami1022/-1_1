@@ -35,12 +35,13 @@ public:
 	}
 	void Run(void);
 	bool Insert(void);
+	//bool (*InsertFunc)()
 	bool InsertCash(int cash);		// 入金受付処理
 	bool InsertCard();			// 電子マネーカードの受付処理
 	void Draw(void);
 	VecInt& GetMoneyType(void);
 	bool Init(sharedMouse mouse);
-	MapInsert& GetInsert();
+	//MapInsert& GetInsert();
 
 private:
 	bool InitDraw(void);
@@ -66,7 +67,7 @@ private:
 	std::map<std::string, int> images;
 	std::map < PayType, std::function<void(void)>> draw;
 	std::map < PayType, std::function<void(void)>> pay;
-	MapInsert insert;
+	//MapInsert insert;
 
 	const int comment_offsetY;
 	const int draw_offsetX;

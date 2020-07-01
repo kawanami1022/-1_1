@@ -434,34 +434,34 @@ bool TicketMachine::InitPay(void)
 
 bool TicketMachine::InitInsert(void)
 {
-	insert.try_emplace(InsertType::CASH, [&](int cash) {
-		if (payType == PayType::MAX)
-		{
-			payType = PayType::CASH;
-		}
+	//insert.try_emplace(InsertType::CASH, [&](int cash) {
+	//	if (payType == PayType::MAX)
+	//	{
+	//		payType = PayType::CASH;
+	//	}
 
-		if (payType != PayType::CASH)
-		{
-			return false;
-		}
+	//	if (payType != PayType::CASH)
+	//	{
+	//		return false;
+	//	}
 
-		cashData.try_emplace(cash, 0);
-		cashData[cash]++;
-		return true;
-	});
-	insert.try_emplace(InsertType::CARD, [&](int cash) {
-		if (payType == PayType::MAX)
-		{
-			payType = PayType::CARD;
-		}
-		else
-		{
-			//カードおよび現金がみ
-			return false;
-		}
-		cardData = lpCardServer.GetCardState();
-		return true;
-	});
+	//	cashData.try_emplace(cash, 0);
+	//	cashData[cash]++;
+	//	return true;
+	//});
+	//insert.try_emplace(InsertType::CARD, [&](int cash) {
+	//	if (payType == PayType::MAX)
+	//	{
+	//		payType = PayType::CARD;
+	//	}
+	//	else
+	//	{
+	//		//カードおよび現金がみ
+	//		return false;
+	//	}
+	//	cardData = lpCardServer.GetCardState();
+	//	return true;
+	//});
 	return true;
 }
 
@@ -622,11 +622,11 @@ bool TicketMachine::Init(sharedMouse mouse)
 	return true;
 }
 
-MapInsert& TicketMachine::GetInsert()
-{
-	// TODO: return ステートメントをここに挿入します
-	return insert;
-}
+//MapInsert& TicketMachine::GetInsert()
+//{
+//	// TODO: return ステートメントをここに挿入します
+//	return insert;
+//}
 
 TicketMachine::TicketMachine() :comment_offsetY(450),
 							draw_offsetX(200),draw_offsetY(70),

@@ -6,7 +6,7 @@
 #include "TicketMachine.h"
 
 #define lpMyself Myself::GetInstance()
-
+// 1‚Á‰ñMAX‚Å”»’è‚µC,B‚Å•ªŠò
 class MouseCt1;
 
 class Myself
