@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CardServer.cpp" />
+    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MouseCt1.cpp" />
     <ClCompile Include="Myself.cpp" />
@@ -31,9 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CardServer.h" />
+    <ClInclude Include="Effect.h" />
     <ClInclude Include="InsertCard.h" />
     <ClInclude Include="InsertCash.h" />
-    <ClInclude Include="main.h" />
     <ClInclude Include="MouseCt1.h" />
     <ClInclude Include="Myself.h" />
     <ClInclude Include="Sound.h" />

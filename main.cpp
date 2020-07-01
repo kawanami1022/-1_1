@@ -1,7 +1,6 @@
 #include <DxLib.h>
 #include "Myself.h"
 #include "TicketMachine.h"
-#include "main.h"
 #define SCREEN_SIZE_X (800)
 #define SCREEN_SIZE_Y (600)
 

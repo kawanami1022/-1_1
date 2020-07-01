@@ -35,7 +35,7 @@ public:
 	}
 	void Run(void);
 	bool Insert(void);
-	//bool (*InsertFunc)()
+	//void (*TicketMachine::Insert[])() = {};
 	bool InsertCash(int cash);		// 入金受付処理
 	bool InsertCard();			// 電子マネーカードの受付処理
 	void Draw(void);
