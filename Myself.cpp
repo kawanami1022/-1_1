@@ -2,6 +2,8 @@
 #include "MouseCt1.h"
 #include "TicketMachine.h"
 #include "Myself.h"
+#include "InsertCard.h"
+#include "InsertCash.h"
 #include "_debug/_DebugConOut.h"
 
 Myself* Myself::s_Instance = nullptr;
@@ -50,7 +52,9 @@ bool Myself::Run(void)
 					if (pos.y < static_cast<int>(moneyType.size() + 1) * money_sizeY)
 					{
 						//lpTicketMachine.GetInsert()[InsertType::CARD](0);
-						lpTicketMachine.InsertCard();
+						//lpTicketMachine.InsertCard();
+						lpTicketMachine.Insert= InsertCard();
+						//Insert(lpTicketMachine.GetMoneyType(), cash, 0);
 					}
 				}
 			}

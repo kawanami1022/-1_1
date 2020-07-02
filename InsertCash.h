@@ -3,9 +3,29 @@
 
 struct InsertCash
 {
-	void operator()(PayType& payType, MapInt& cashData, int cash)
+	bool operator()(PayType& payType, MapInt& cashData, int cash)
 	{
+		//if (payType == PayType::MAX)
+		//{
+		//	payType = PayType::CASH;
+		//}
+
+		//if (payType != PayType::CASH)
+		//{
+		//	return false;
+		//}
+		//if (payType != PayType::CASH)
+		if (payType == PayType::MAX)
+		{
+			payType = PayType::CASH;
+		}
+
+		else
+		{
+			return false;
+		}
 		cashData.try_emplace(cash, 0);
 		cashData[cash]++;
+		return true;
 	}
 };

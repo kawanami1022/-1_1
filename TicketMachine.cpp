@@ -77,8 +77,8 @@ void TicketMachine::Run(void)
 	}
 }
 
-bool TicketMachine::Insert(void)
-{
+//bool TicketMachine::Insert(void)
+//{
 	//if (payType == PayType::MAX)
 	//{
 	//	payType = PayType::CASH;
@@ -102,8 +102,8 @@ bool TicketMachine::Insert(void)
 	//	return false;
 	//}
 	//cardData = lpCardServer.GetCardState();
-	return true;
-}
+	//return true;
+//}
 
 bool TicketMachine::InsertCash(int cash)
 {
@@ -122,7 +122,8 @@ bool TicketMachine::InsertCash(int cash)
 		payType = PayType::CASH;
 	}
 
-	if (payType != PayType::CASH)
+	//if (payType != PayType::CASH)
+	else
 	{
 		return false;
 	}
@@ -136,6 +137,16 @@ bool TicketMachine::InsertCash(int cash)
 
 bool TicketMachine::InsertCard()
 {
+	//if (payType == PayType::MAX)
+	//{
+	//	payType = PayType::CARD;
+	//}
+	//else
+	//{
+	//	//カードおよび現金がみ
+	//	return false;
+	//}
+
 	if (payType == PayType::MAX)
 	{
 		payType = PayType::CARD;
@@ -145,7 +156,8 @@ bool TicketMachine::InsertCard()
 		//カードおよび現金がみ
 		return false;
 	}
-	cardData = lpCardServer.GetCardState();
+
+	cardData.try_emplace(lpCardServer.GetCardState().first, lpCardServer.GetCardState().second);
 	return true;
 }
 
@@ -394,29 +406,37 @@ bool TicketMachine::InitDraw(void)
 		SetFontSize(font_size);
 		if (paySuccess)
 		{
-			DrawString(0, comment_offsetY + GetFontSize() / 2,
-				"決済完了\nICカードをだす際は受け取りボタンを押してください。",
-				0xffffff);
-			DrawString(draw_offsetX, draw_offsetY, "電子マネー", 0xffffff);
-			DrawFormatString(draw_offsetX + GetFontSize(), draw_offsetY + GetFontSize(),
-				0xffffff, " 残高  %d円", cardData.first);
-			DrawFormatString(draw_offsetX + GetFontSize(), draw_offsetY + GetFontSize() * 2,
-				0xffffff, " 引去額 %d円", cardData.second);
+			for(auto card:cardData)
+			{ 
+				DrawString(0, comment_offsetY + GetFontSize() / 2,
+					"決済完了\nICカードをだす際は受け取りボタンを押してください。",
+					0xffffff);
+				DrawString(draw_offsetX, draw_offsetY, "電子マネー", 0xffffff);
+				DrawFormatString(draw_offsetX + GetFontSize(), draw_offsetY + GetFontSize(),
+					0xffffff, " 残高  %d円", card.first);
+				DrawFormatString(draw_offsetX + GetFontSize(), draw_offsetY + GetFontSize() * 2,
+					0xffffff, " 引去額 %d円", card.second);
+				break;
+			}
 		}
 		else
 		{
-			DrawString(
-				0, comment_offsetY + GetFontSize() / 2,
-				"左の枠内の現金化ICカードを選択しクリックして入金してください。\n入金んが完了したら決済ボタンを押してください.",
-				0xffffff, true
-			);
-			DrawString(draw_offsetX, draw_offsetY, "電子マネー", 0xffffff);
-			DrawFormatString(draw_offsetX + GetFontSize(), draw_offsetY + GetFontSize(),
-				0xffffff, " 残高　%d円", cardData.first);
-
-			if (cardData.first < price_card)
+			for (auto card : cardData)
 			{
-				DrawString(draw_offsetX, draw_offsetY + GetFontSize() * 3, "残高が足りません", 0xff0000, true);
+				DrawString(
+					0, comment_offsetY + GetFontSize() / 2,
+					"左の枠内の現金化ICカードを選択しクリックして入金してください。\n入金んが完了したら決済ボタンを押してください.",
+					0xffffff, true
+					);
+				DrawString(draw_offsetX, draw_offsetY, "電子マネー", 0xffffff);
+				DrawFormatString(draw_offsetX + GetFontSize(), draw_offsetY + GetFontSize(),
+					0xffffff, " 残高　%d円", card.first);
+
+				if (card.first < price_card)
+				{
+					DrawString(draw_offsetX, draw_offsetY + GetFontSize() * 3, "残高が足りません", 0xff0000, true);
+				}
+				break;
 			}
 		}
 	});
@@ -558,7 +578,7 @@ bool TicketMachine::PayCash()
 bool TicketMachine::PayCard(void)
 {
 	lpCardServer.Payment(price_card);
-	cardData = lpCardServer.GetCardState();
+	cardData.try_emplace(lpCardServer.GetCardState().first, lpCardServer.GetCardState().second);
 	paySuccess = true;
 	return true;
 }
@@ -575,7 +595,7 @@ void TicketMachine::Clear()
 	payType = PayType::MAX;
 	cashData.clear();
 	cashDataChange.clear();
-	cardData = { 0,0 };
+	cardData.clear();
 }
 
 void TicketMachine::DrawBtn(void)

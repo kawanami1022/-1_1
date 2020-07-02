@@ -34,8 +34,8 @@ public:
 		return s_Instance;
 	}
 	void Run(void);
-	bool Insert(void);
-	//void (*TicketMachine::Insert[])() = {};
+	//bool Insert(void);
+	std::function < bool(PayType&, MapInt&, int) > Insert;
 	bool InsertCash(int cash);		// 入金受付処理
 	bool InsertCard();			// 電子マネーカードの受付処理
 	void Draw(void);
@@ -60,14 +60,13 @@ private:
 	PayType payType;				// 支払方法
 	MapInt cashData;				// 現金
 	MapInt cashDataChange;		// お釣り
-	PairInt cardData;				//
+	MapInt cardData;				//
 	bool paySuccess;
 
 
 	std::map<std::string, int> images;
 	std::map < PayType, std::function<void(void)>> draw;
 	std::map < PayType, std::function<void(void)>> pay;
-	//MapInsert insert;
 
 	const int comment_offsetY;
 	const int draw_offsetX;
