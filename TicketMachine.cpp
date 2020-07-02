@@ -5,6 +5,9 @@
 #include "Myself.h"
 #include "_debug/_DebugConOut.h"
 #include "CardServer.h"
+#include "InsertCard.h"
+#include "InsertCash.h"
+#include "InsertMax.h"
 
 
 void TicketMachine::Run(void)
@@ -116,7 +119,7 @@ bool TicketMachine::InsertPayType(PayType payType, int id)
 		return false;
 	}
 	
-	//Insert(GetMoneyType(), payType, 0);
+	//Insert(this->payType, payType, 0);
 
 	return true;
 }
@@ -470,6 +473,7 @@ bool TicketMachine::InitPay(void)
 
 bool TicketMachine::InitInsert(void)
 {
+	Insert = InsertMax();
 	//insert.try_emplace(InsertType::CASH, [&](int cash) {
 	//	if (payType == PayType::MAX)
 	//	{

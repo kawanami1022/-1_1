@@ -13,6 +13,7 @@ struct InsertCard
 {
 	bool operator()(PayType& payType, MapInt& cardData, int card)
 	{
+		// カードの残高と引き去り額を取得
 		cardData.try_emplace(lpCardServer.GetCardState().first, lpCardServer.GetCardState().second);
 		return true;
 	}

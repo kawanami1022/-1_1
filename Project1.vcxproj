@@ -20,11 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CardServer.cpp" />
-    <ClCompile Include="Effect.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MouseCt1.cpp" />
     <ClCompile Include="Myself.cpp" />
-    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="TicketMachine.cpp" />
     <ClCompile Include="Vector2\Vector2.cpp" />
     <ClCompile Include="_debug\_DebugConOut.cpp" />
@@ -32,12 +30,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CardServer.h" />
-    <ClInclude Include="Effect.h" />
     <ClInclude Include="InsertCard.h" />
     <ClInclude Include="InsertCash.h" />
+    <ClInclude Include="InsertMax.h" />
     <ClInclude Include="MouseCt1.h" />
     <ClInclude Include="Myself.h" />
-    <ClInclude Include="Sound.h" />
     <ClInclude Include="TicketMachine.h" />
     <ClInclude Include="Vector2\Vector2.h" />
     <ClInclude Include="_debug\_DebugConOut.h" />
