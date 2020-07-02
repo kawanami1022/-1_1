@@ -36,13 +36,19 @@ public:
 	void Run(void);
 	//bool Insert(void);
 	std::function < bool(PayType&, MapInt&, int) > Insert;
+	//MapInsert Insert;
+	bool InsertPayType(PayType payType,int id);
 	bool InsertCash(int cash);		// 入金受付処理
 	bool InsertCard();			// 電子マネーカードの受付処理
 	void Draw(void);
 	VecInt& GetMoneyType(void);
 	bool Init(sharedMouse mouse);
-	//MapInsert& GetInsert();
 
+	//MapInsert& GetInsert();
+	//std::map<PayType, std::pair<MapInt, MapInt>> data;
+	//PayType::CASH.first 投入金(MapInt 金種とその枚数) second お釣り(MapInt 金種とその枚数d)
+	//PayType::CASH.first カード残高(MapInt カードIDとその仕組み) second 引き去り額(MapInt カードIDとその仕組み)
+	//std::map<PayType, std::function<bool(MapInt, int)>> insert;
 private:
 	bool InitDraw(void);
 	bool InitPay(void);

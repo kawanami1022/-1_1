@@ -51,10 +51,10 @@ bool Myself::Run(void)
 					// 現金の範囲+1の位置がちょうど電子マネー
 					if (pos.y < static_cast<int>(moneyType.size() + 1) * money_sizeY)
 					{
+						lpTicketMachine.InsertCard();
 						//lpTicketMachine.GetInsert()[InsertType::CARD](0);
-						//lpTicketMachine.InsertCard();
-						lpTicketMachine.Insert= InsertCard();
-						//Insert(lpTicketMachine.GetMoneyType(), cash, 0);
+						//lpTicketMachine.Insert = InsertCard();
+						//lpTicketMachine.Insert(, cash, 0);
 					}
 				}
 			}

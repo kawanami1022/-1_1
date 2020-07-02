@@ -105,6 +105,22 @@ void TicketMachine::Run(void)
 	//return true;
 //}
 
+bool TicketMachine::InsertPayType(PayType payType, int id)
+{
+	if (this->payType == PayType::MAX)
+	{
+		this->payType = payType;
+	}
+	else
+	{
+		return false;
+	}
+	
+	//Insert(GetMoneyType(), payType, 0);
+
+	return true;
+}
+
 bool TicketMachine::InsertCash(int cash)
 {
 	//try

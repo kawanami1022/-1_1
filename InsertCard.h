@@ -13,16 +13,6 @@ struct InsertCard
 {
 	bool operator()(PayType& payType, MapInt& cardData, int card)
 	{
-		if (payType == PayType::MAX)
-		{
-			payType = PayType::CASH;
-		}
-
-		if (payType != PayType::CASH)
-		{
-			return false;
-		}
-
 		cardData.try_emplace(lpCardServer.GetCardState().first, lpCardServer.GetCardState().second);
 		return true;
 	}
