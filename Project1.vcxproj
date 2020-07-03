@@ -32,6 +32,7 @@
     <ClInclude Include="CardServer.h" />
     <ClInclude Include="InsertCard.h" />
     <ClInclude Include="InsertCash.h" />
+    <ClInclude Include="InsertMax.h" />
     <ClInclude Include="MouseCt1.h" />
     <ClInclude Include="Myself.h" />
     <ClInclude Include="TicketMachine.h" />
