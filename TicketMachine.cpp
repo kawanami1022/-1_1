@@ -122,8 +122,7 @@ bool TicketMachine::InsertCash(int cash)
 		payType = PayType::CASH;
 	}
 
-	//if (payType != PayType::CASH)
-	else
+	if (payType != PayType::CASH)
 	{
 		return false;
 	}
@@ -344,14 +343,15 @@ bool TicketMachine::InitDraw(void)
 			DrawString(draw_offsetX, draw_offsetY, "             –‡”", 0xffffff);
 			for (auto moneyData : cashData)
 			{
-				DrawFormatString(
-					draw_offsetX + GetFontSize(), (draw_offsetY + GetFontSize()) + moneyLine * GetFontSize(),
-					0xffffff, "%d‰~", moneyData.first
-				);
-				DrawFormatString(draw_offsetX + GetFontSize(), (draw_offsetY + GetFontSize()) + moneyLine * GetFontSize(),
-					0xffffff, "                %d–‡", moneyData.second);
-				moneyLine++;
-				totalMoney += (moneyData.first * moneyData.second);
+
+					DrawFormatString(
+						draw_offsetX + GetFontSize(), (draw_offsetY + GetFontSize()) + moneyLine * GetFontSize(),
+						0xffffff, "%d‰~", moneyData.first
+					);
+					DrawFormatString(draw_offsetX + GetFontSize(), (draw_offsetY + GetFontSize()) + moneyLine * GetFontSize(),
+						0xffffff, "                %d–‡", moneyData.second);
+					moneyLine++;
+					totalMoney += (moneyData.first * moneyData.second);
 			}
 
 			DrawFormatString(draw_offsetX, (draw_offsetY + GetFontSize() * 2) + moneyLine * GetFontSize(),
@@ -361,11 +361,14 @@ bool TicketMachine::InitDraw(void)
 			int changeLine = 0;
 			for (auto data : cashDataChange)
 			{
-				DrawFormatString(draw_offsetX * 2, (draw_offsetY + GetFontSize()) + changeLine * GetFontSize(),
-					0xffffff, "%5d‰~", data.first);
-				DrawFormatString(draw_offsetX * 2, (draw_offsetY + GetFontSize()) + changeLine * GetFontSize(),
-					0xffffff, "           %9d–‡", data.second);
-				changeLine++;
+				if(data.second>0)
+				{
+					DrawFormatString(draw_offsetX * 2, (draw_offsetY + GetFontSize()) + changeLine * GetFontSize(),
+						0xffffff, "%5d‰~", data.first);
+					DrawFormatString(draw_offsetX * 2, (draw_offsetY + GetFontSize()) + changeLine * GetFontSize(),
+						0xffffff, "           %9d–‡", data.second);
+					changeLine++;
+				}
 			}
 		}
 		else
